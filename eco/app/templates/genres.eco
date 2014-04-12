@@ -1,0 +1,9 @@
+  <label for="genre">genre</label>
+    <select name="genre">
+    <% for genre in genres: %>
+      <option value='<%= genre %>'>
+        <%= genre %>
+      </option>
+    <% end %>
+  </select>
+  <br/>

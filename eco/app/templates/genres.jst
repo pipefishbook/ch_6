@@ -1,0 +1,11 @@
+  <ul class="filter-genres">
+    <% _.each(genres, function(genre) { %>
+       <li>
+         <input type="checkbox" name="genres" value="<%= genre.name %>">
+           <%= genre.name %>
+         </input>
+       </li>
+    <% }) %>
+  </ul>
+
+
