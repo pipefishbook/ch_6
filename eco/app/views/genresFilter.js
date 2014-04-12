@@ -1,5 +1,5 @@
   var Backbone = require('backbone');
-  var genresTemplate = require('../templates/genres.jst');
+  var genresTemplate = require('../../templates/genres.jst');
   
   // The UI for selecting a Movie Category
   var GenresView = Backbone.View.extend({
@@ -7,7 +7,7 @@
     template: genresTemplate,
 
     render: function() {
-      this.$el.html(this.template({genres: this.genres});
+      this.$el.html(this.template({genres: this.genres}));
       return this;
     },
 

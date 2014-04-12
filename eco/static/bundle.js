@@ -15,7 +15,7 @@ $(document).ready(function() {
 });
 
 
-},{"backbone":22,"jquery-untouched":24,"routers/movies":4}],2:[function(require,module,exports){
+},{"backbone":24,"jquery-untouched":26,"routers/movies":4}],2:[function(require,module,exports){
 var Backbone = require('backbone');
 var Movie = require('models/movie');
 var _ = require('underscore');
@@ -58,7 +58,7 @@ var Movies = Backbone.Collection.extend({
 })
 module.exports = Movies;
 
-},{"backbone":22,"models/movie":3,"underscore":26}],3:[function(require,module,exports){
+},{"backbone":24,"models/movie":3,"underscore":28}],3:[function(require,module,exports){
 var Backbone = require("backbone");
   var Movie = Backbone.Model.extend({
     defaults: {
@@ -70,7 +70,7 @@ var Backbone = require("backbone");
   });
   module.exports = Movie;
 
-},{"backbone":22}],4:[function(require,module,exports){
+},{"backbone":24}],4:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 
@@ -110,7 +110,7 @@ var MoviesRouter = Backbone.Router.extend({
 });
 module.exports = MoviesRouter;
 
-},{"../../../movies.json":12,"backbone":22,"collections/movies":2,"underscore":26,"views/layout":9}],5:[function(require,module,exports){
+},{"../../../movies.json":14,"backbone":24,"collections/movies":2,"underscore":28,"views/layout":10}],5:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var ChoseView = Backbone.View.extend({
@@ -126,7 +126,7 @@ var ChoseView = Backbone.View.extend({
 });
 module.exports = ChoseView;
 
-},{"backbone":22}],6:[function(require,module,exports){
+},{"backbone":24}],6:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = Backbone.$;
@@ -185,7 +185,7 @@ var ControlsView = Backbone.View.extend({
 });
 module.exports = ControlsView;
 
-},{"backbone":22,"backbone.xview":21,"underscore":26}],7:[function(require,module,exports){
+},{"backbone":24,"backbone.xview":23,"underscore":28}],7:[function(require,module,exports){
   var Backbone = require('backbone');
   var _ = require('underscore');
   var moment = require('moment');
@@ -205,7 +205,28 @@ module.exports = ControlsView;
   });
   module.exports = DetailsView;
 
-},{"backbone":22,"moment":25,"underscore":26}],8:[function(require,module,exports){
+},{"backbone":24,"moment":27,"underscore":28}],8:[function(require,module,exports){
+  var Backbone = require('backbone');
+  var genresTemplate = require('../../templates/genres.jst');
+  
+  // The UI for selecting a Movie Category
+  var GenresView = Backbone.View.extend({
+  
+    template: genresTemplate,
+
+    render: function() {
+      this.$el.html(this.template({genres: this.genres}));
+      return this;
+    },
+
+    initialize: function() {
+      this.genres = ['Action', 'Drama', 'Comedy'];
+    }
+  
+  });
+  module.exports = GenresView;
+
+},{"../../templates/genres.jst":13,"backbone":24}],9:[function(require,module,exports){
 
 var Backbone = require('backbone');
 var _ = require('underscore');
@@ -227,7 +248,7 @@ var Info = Backbone.View.extend({
 });
 module.exports = Info;
 
-},{"backbone":22,"underscore":26}],9:[function(require,module,exports){
+},{"backbone":24,"underscore":28}],10:[function(require,module,exports){
 var Backbone = require('backbone');
 Backbone.XView = require('backbone.xview');
 Backbone.Obscura = require('backbone.obscura');
@@ -240,6 +261,7 @@ var MoviesList = require('views/moviesList');
 var DetailsView = require('views/details');
 var ChoseView = require('views/chose');
 var Controls = require('views/controls');
+var GenresFilter = require('views/genresFilter');
 var Info = require('views/info');
 
 var Layout = Backbone.XView.extend({
@@ -293,6 +315,7 @@ var Layout = Backbone.XView.extend({
 
   onRender: function() {
     this.controls.setElement($('#controls'));
+    $("#controls").append(this.genresFilter.render().el);
     $('#info').append(this.info.render().el);
   },
   
@@ -304,6 +327,7 @@ var Layout = Backbone.XView.extend({
       router: options.router
     }));
     this.controls = new Controls({ proxy: this.proxy });
+    this.genresFilter = new GenresFilter();
     this.info = new Info({proxy: this.proxy });
   }
 
@@ -322,7 +346,7 @@ Layout.getInstance = function(options) {
 }
 module.exports = Layout;
 
-},{"backbone":22,"backbone.obscura":13,"backbone.xview":21,"underscore":26,"views/chose":5,"views/controls":6,"views/details":7,"views/info":8,"views/moviesList":11}],10:[function(require,module,exports){
+},{"backbone":24,"backbone.obscura":15,"backbone.xview":23,"underscore":28,"views/chose":5,"views/controls":6,"views/details":7,"views/genresFilter":8,"views/info":9,"views/moviesList":12}],11:[function(require,module,exports){
 var Backbone = require('backbone');
 var $ = require('jquery-untouched');
 var _ = require('underscore');
@@ -358,7 +382,7 @@ var MovieView = Backbone.View.extend({
 });
 module.exports = MovieView;
 
-},{"backbone":22,"jquery-untouched":24,"underscore":26}],11:[function(require,module,exports){
+},{"backbone":24,"jquery-untouched":26,"underscore":28}],12:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 
@@ -384,7 +408,24 @@ var MoviesList = Backbone.View.extend({
 
 module.exports = MoviesList;
 
-},{"backbone":22,"underscore":26,"views/movie":10}],12:[function(require,module,exports){
+},{"backbone":24,"underscore":28,"views/movie":11}],13:[function(require,module,exports){
+var _ = require('underscore');
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<ul class="filter-genres">';
+ _.each(genres, function(name) { 
+__p+='<li><input type="checkbox" name="genres" value="'+
+((__t=( name ))==null?'':__t)+
+'">'+
+((__t=( name ))==null?'':__t)+
+'</li>';
+ }) 
+__p+='</ul>';
+}
+return __p;
+};
+},{"underscore":28}],14:[function(require,module,exports){
 module.exports=[
  {
   "id": 12,
@@ -678,7 +719,7 @@ module.exports=[
  }
 ]
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 var _ = require('underscore');
 var Backbone = require('backbone');
@@ -801,7 +842,7 @@ Obscura.PaginatedCollection = PaginatedCollection;
 module.exports = Obscura;
 
 
-},{"./src/proxy-events.js":20,"backbone":22,"backbone-collection-proxy":14,"backbone-filtered-collection":15,"backbone-paginated-collection":17,"backbone-sorted-collection":18,"underscore":26}],14:[function(require,module,exports){
+},{"./src/proxy-events.js":22,"backbone":24,"backbone-collection-proxy":16,"backbone-filtered-collection":17,"backbone-paginated-collection":19,"backbone-sorted-collection":20,"underscore":28}],16:[function(require,module,exports){
 
 var _ = require('underscore');
 var Backbone = require('backbone');
@@ -874,7 +915,7 @@ function proxyCollection(from, target) {
 module.exports = proxyCollection;
 
 
-},{"backbone":22,"underscore":26}],15:[function(require,module,exports){
+},{"backbone":24,"underscore":28}],17:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var proxyCollection = require('backbone-collection-proxy');
@@ -1104,7 +1145,7 @@ _.extend(Filtered.prototype, methods, Backbone.Events);
 module.exports = Filtered;
 
 
-},{"./src/create-filter.js":16,"backbone":22,"backbone-collection-proxy":14,"underscore":26}],16:[function(require,module,exports){
+},{"./src/create-filter.js":18,"backbone":24,"backbone-collection-proxy":16,"underscore":28}],18:[function(require,module,exports){
 var _ = require('underscore');
 
 // Converts a key and value into a function that accepts a model
@@ -1187,7 +1228,7 @@ function createFilter(filter, keys) {
 module.exports = createFilter;
 
 
-},{"underscore":26}],17:[function(require,module,exports){
+},{"underscore":28}],19:[function(require,module,exports){
 
 var _ = require('underscore');
 var Backbone = require('backbone');
@@ -1401,7 +1442,7 @@ _.extend(Paginated.prototype, methods, Backbone.Events);
 module.exports =  Paginated;
 
 
-},{"backbone":22,"backbone-collection-proxy":14,"underscore":26}],18:[function(require,module,exports){
+},{"backbone":24,"backbone-collection-proxy":16,"underscore":28}],20:[function(require,module,exports){
 
 var _ = require('underscore');
 var Backbone =require('backbone');
@@ -1519,7 +1560,7 @@ _.extend(Sorted.prototype, methods, Backbone.Events);
 module.exports = Sorted;
 
 
-},{"./src/reverse-sorted-index.js":19,"backbone":22,"backbone-collection-proxy":14,"underscore":26}],19:[function(require,module,exports){
+},{"./src/reverse-sorted-index.js":21,"backbone":24,"backbone-collection-proxy":16,"underscore":28}],21:[function(require,module,exports){
 
 var _ = require('underscore');
 
@@ -1546,7 +1587,7 @@ function reverseSortedIndex(array, obj, iterator, context) {
 
 module.exports = reverseSortedIndex;
 
-},{"underscore":26}],20:[function(require,module,exports){
+},{"underscore":28}],22:[function(require,module,exports){
 var _ = require('underscore');
 
 function proxyEvents(from, eventNames) {
@@ -1561,7 +1602,7 @@ function proxyEvents(from, eventNames) {
 
 module.exports = proxyEvents;
 
-},{"underscore":26}],21:[function(require,module,exports){
+},{"underscore":28}],23:[function(require,module,exports){
 /**
  * XView
  *
@@ -1971,7 +2012,7 @@ module.exports = proxyEvents;
 
 }));
 
-},{"backbone":22,"underscore":26}],22:[function(require,module,exports){
+},{"backbone":24,"underscore":28}],24:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3581,7 +3622,7 @@ module.exports = proxyEvents;
 
 }));
 
-},{"underscore":23}],23:[function(require,module,exports){
+},{"underscore":25}],25:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -4926,7 +4967,7 @@ module.exports = proxyEvents;
   }
 }).call(this);
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.10.2
  * http://jquery.com/
@@ -14717,7 +14758,7 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
 
 })( window );
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 //! moment.js
 //! version : 2.5.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -17119,6 +17160,6 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
     }
 }).call(this);
 
-},{}],26:[function(require,module,exports){
-module.exports=require(23)
+},{}],28:[function(require,module,exports){
+module.exports=require(25)
 },{}]},{},[1])

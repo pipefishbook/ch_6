@@ -10,6 +10,7 @@ var MoviesList = require('views/moviesList');
 var DetailsView = require('views/details');
 var ChoseView = require('views/chose');
 var Controls = require('views/controls');
+var GenresFilter = require('views/genresFilter');
 var Info = require('views/info');
 
 var Layout = Backbone.XView.extend({
@@ -63,6 +64,7 @@ var Layout = Backbone.XView.extend({
 
   onRender: function() {
     this.controls.setElement($('#controls'));
+    $("#controls").append(this.genresFilter.render().el);
     $('#info').append(this.info.render().el);
   },
   
@@ -74,6 +76,7 @@ var Layout = Backbone.XView.extend({
       router: options.router
     }));
     this.controls = new Controls({ proxy: this.proxy });
+    this.genresFilter = new GenresFilter();
     this.info = new Info({proxy: this.proxy });
   }
 
