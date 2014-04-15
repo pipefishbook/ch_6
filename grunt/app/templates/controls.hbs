@@ -1,0 +1,13 @@
+<p>Sort:</p>
+<button id="prev">Previous</button>
+<button id="next">Next</button>
+<p>Sort:</p>
+<button id="by_title">By Title</button>
+<button id="by_rating">By Rating</button>
+<button id="by_showtime">By Showtime</button>
+<p>Filter</p>
+{{#each filters}}
+  <input type="checkbox" name="genres" value="{{ name }}">
+    {{ name }}
+  </input>
+{{/each}}

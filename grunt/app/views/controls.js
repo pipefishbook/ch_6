@@ -1,9 +1,18 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = Backbone.$;
-Backbone.XView = require('backbone.xview');
+
+var Handlebars = require('handlebars');
+var Templates = require('templates/compiledTemplates')(Handlebars);
 
 var ControlsView = Backbone.View.extend({
+
+  template: Templates['controls'],
+
+  render: function() {
+    this.$el.html(this.template({filters: [{name: 'Action'}, {name: 'Drama'}]}));
+    return this;
+  },
 
   events: {
      'click #by_title': 'sortByTitle',
@@ -52,6 +61,7 @@ var ControlsView = Backbone.View.extend({
 
   initialize: function(options) {
     this.proxy = options.proxy;
+    Backbone.XView.prototype.initialize.call(options);
   }
 });
 module.exports = ControlsView;

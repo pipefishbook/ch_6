@@ -17,32 +17,7 @@ var Templates = require('templates/compiledTemplates')(Handlebars);
 
 var Layout = Backbone.XView.extend({
 
-  template:   _.template('           \
-              <header>   \
-              <a href="#">Home</a>  \
-                <nav id="controls"> \
-                  <p>Sort:</p> \
-                  <button id="prev">Previous</button> \
-                  <button id="next">Next</button> \
-                  <p>Sort:</p> \
-                  <button id="by_title">By Title</button>  \
-                  <button id="by_rating">By Rating</button>\
-                  <button id="by_showtime">By Showtime</button> \
-                  <p>Filter</p> \
-                    <input type="checkbox" name="genres" value="Drama"> \
-                      Drama \
-                    </input> \
-                    <input type="checkbox" name="genres" value="Action"> \
-                      Action \
-                    </input> \
-                </nav> \
-                <span id="info">  \
-                </span>               \
-              </header>            \
-              <div id="overview">  \
-              </div>               \
-              <div id="details">   \
-              </div>'),
+  template:   Templates['layout'],
 
   setDetails: function(movie) {
     if (this.currentDetails) {
@@ -65,7 +40,7 @@ var Layout = Backbone.XView.extend({
   },
 
   onRender: function() {
-    this.controls.setElement($('#controls'));
+    $('#controls').html(this.controls.render().el);
     $('#info').append(this.info.render().el);
   },
   
@@ -76,7 +51,7 @@ var Layout = Backbone.XView.extend({
       collection: this.proxy,
       router: options.router
     }));
-    this.controls = new Controls({ proxy: this.proxy });
+    this.controls = new Controls({ filters: ['Drama', 'Action'], proxy: this.proxy });
     this.info = new Info({proxy: this.proxy });
   }
 

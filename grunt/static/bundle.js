@@ -1,5 +1,22 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Backbone = require('backbone');
+var $ = require('jquery-untouched');
+Backbone.$ = $;
+
+var MoviesRouter = require('routers/movies');
+
+$(document).ready(function() {
+  console.log('init');
+  var router = new MoviesRouter({el: $('#movies') });
+  Backbone.history.start({
+    pushState: false,
+    root: '/'
+  });
+});
+
+
+},{"backbone":22,"jquery-untouched":39,"routers/movies":4}],2:[function(require,module,exports){
+var Backbone = require('backbone');
 var Movie = require('models/movie');
 var _ = require('underscore');
 
@@ -41,24 +58,7 @@ var Movies = Backbone.Collection.extend({
 })
 module.exports = Movies;
 
-},{"backbone":36,"models/movie":6,"underscore":56}],2:[function(require,module,exports){
-var Backbone = require('backbone');
-var $ = require('jquery-untouched');
-Backbone.$ = $;
-
-var MoviesRouter = require('routers/movies');
-
-$(document).ready(function() {
-  console.log('init');
-  var router = new MoviesRouter({el: $('#movies') });
-  Backbone.history.start({
-    pushState: false,
-    root: '/'
-  });
-});
-
-
-},{"backbone":36,"jquery-untouched":54,"routers/movies":7}],3:[function(require,module,exports){
+},{"backbone":22,"models/movie":3,"underscore":41}],3:[function(require,module,exports){
 var Backbone = require("backbone");
   var Movie = Backbone.Model.extend({
     defaults: {
@@ -70,23 +70,7 @@ var Backbone = require("backbone");
   });
   module.exports = Movie;
 
-},{"backbone":36}],4:[function(require,module,exports){
-var _ = require('underscore');
-var Backbone = require('backbone');
-
-  var Monitor = function(collection) {
-    _.extend(this, Backbone.Events);
-    this.listenTo(collection, 'all', function (eventName) { 
-      console.log(eventName);
-    });
-  }
-  module.exports = Monitor;
-
-},{"backbone":36,"underscore":56}],5:[function(require,module,exports){
-module.exports=require(1)
-},{"backbone":36,"models/movie":6,"underscore":56}],6:[function(require,module,exports){
-module.exports=require(3)
-},{"backbone":36}],7:[function(require,module,exports){
+},{"backbone":22}],4:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 
@@ -125,24 +109,60 @@ var MoviesRouter = Backbone.Router.extend({
 });
 module.exports = MoviesRouter;
 
-},{"backbone":36,"collections/movies":5,"underscore":56,"views/layout":14}],8:[function(require,module,exports){
+},{"backbone":22,"collections/movies":2,"underscore":41,"views/layout":10}],5:[function(require,module,exports){
 module.exports = function(Handlebars) {
 
 var templates = {};
 
-templates["moviesList"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+templates["controls"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\n  <input type=\"checkbox\" name=\"genres\" value=\"";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">\n    ";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n  </input>\n";
+  return buffer;
+  }
+
+  buffer += "<p>Sort:</p>\n<button id=\"prev\">Previous</button>\n<button id=\"next\">Next</button>\n<p>Sort:</p>\n<button id=\"by_title\">By Title</button>\n<button id=\"by_rating\">By Rating</button>\n<button id=\"by_showtime\">By Showtime</button>\n<p>Filter</p>\n";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.filters), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n";
+  return buffer;
+  });
+
+templates["layout"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "123\n123\n123\n1234\n123213213\n";
+  return "<header>\n<a href=\"#\">Home</a>\n  <nav id=\"controls\">\n  </nav>\n  <span id=\"info\"> \n  </span>    \n</header>   \n<div id=\"overview\">\n</div>     \n<div id=\"details\"> \n</div>\n";
+  });
+
+templates["moviesList"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "";
+
+
+  return buffer;
   });
 
 return templates;
 
 };
-},{}],9:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var ChoseView = Backbone.View.extend({
@@ -158,13 +178,22 @@ var ChoseView = Backbone.View.extend({
 });
 module.exports = ChoseView;
 
-},{"backbone":36}],10:[function(require,module,exports){
+},{"backbone":22}],7:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = Backbone.$;
-Backbone.XView = require('backbone.xview');
+
+var Handlebars = require('handlebars');
+var Templates = require('templates/compiledTemplates')(Handlebars);
 
 var ControlsView = Backbone.View.extend({
+
+  template: Templates['controls'],
+
+  render: function() {
+    this.$el.html(this.template({filters: [{name: 'Action'}, {name: 'Drama'}]}));
+    return this;
+  },
 
   events: {
      'click #by_title': 'sortByTitle',
@@ -213,11 +242,12 @@ var ControlsView = Backbone.View.extend({
 
   initialize: function(options) {
     this.proxy = options.proxy;
+    Backbone.XView.prototype.initialize.call(options);
   }
 });
 module.exports = ControlsView;
 
-},{"backbone":36,"backbone.xview":35,"underscore":56}],11:[function(require,module,exports){
+},{"backbone":22,"handlebars":38,"templates/compiledTemplates":5,"underscore":41}],8:[function(require,module,exports){
   var Backbone = require('backbone');
   var _ = require('underscore');
   var moment = require('moment');
@@ -237,16 +267,7 @@ module.exports = ControlsView;
   });
   module.exports = DetailsView;
 
-},{"backbone":36,"moment":55,"underscore":56}],12:[function(require,module,exports){
-var Backbone = require('backbone');
-
-// The UI for selecting a Movie Category
-var GenresView = Backbone.View.extend({
-
-});
-module.exports = GenresView;
-
-},{"backbone":36}],13:[function(require,module,exports){
+},{"backbone":22,"moment":40,"underscore":41}],9:[function(require,module,exports){
 
 var Backbone = require('backbone');
 var _ = require('underscore');
@@ -268,7 +289,7 @@ var Info = Backbone.View.extend({
 });
 module.exports = Info;
 
-},{"backbone":36,"underscore":56}],14:[function(require,module,exports){
+},{"backbone":22,"underscore":41}],10:[function(require,module,exports){
 var Backbone = require('backbone');
 Backbone.XView = require('backbone.xview');
 Backbone.Obscura = require('backbone.obscura');
@@ -288,32 +309,7 @@ var Templates = require('templates/compiledTemplates')(Handlebars);
 
 var Layout = Backbone.XView.extend({
 
-  template:   _.template('           \
-              <header>   \
-              <a href="#">Home</a>  \
-                <nav id="controls"> \
-                  <p>Sort:</p> \
-                  <button id="prev">Previous</button> \
-                  <button id="next">Next</button> \
-                  <p>Sort:</p> \
-                  <button id="by_title">By Title</button>  \
-                  <button id="by_rating">By Rating</button>\
-                  <button id="by_showtime">By Showtime</button> \
-                  <p>Filter</p> \
-                    <input type="checkbox" name="genres" value="Drama"> \
-                      Drama \
-                    </input> \
-                    <input type="checkbox" name="genres" value="Action"> \
-                      Action \
-                    </input> \
-                </nav> \
-                <span id="info">  \
-                </span>               \
-              </header>            \
-              <div id="overview">  \
-              </div>               \
-              <div id="details">   \
-              </div>'),
+  template:   Templates['layout'],
 
   setDetails: function(movie) {
     if (this.currentDetails) {
@@ -336,7 +332,7 @@ var Layout = Backbone.XView.extend({
   },
 
   onRender: function() {
-    this.controls.setElement($('#controls'));
+    $('#controls').html(this.controls.render().el);
     $('#info').append(this.info.render().el);
   },
   
@@ -347,7 +343,7 @@ var Layout = Backbone.XView.extend({
       collection: this.proxy,
       router: options.router
     }));
-    this.controls = new Controls({ proxy: this.proxy });
+    this.controls = new Controls({ filters: ['Drama', 'Action'], proxy: this.proxy });
     this.info = new Info({proxy: this.proxy });
   }
 
@@ -366,7 +362,7 @@ Layout.getInstance = function(options) {
 }
 module.exports = Layout;
 
-},{"backbone":36,"backbone.obscura":27,"backbone.xview":35,"handlebars":53,"templates/compiledTemplates":8,"underscore":56,"views/chose":9,"views/controls":10,"views/details":11,"views/info":13,"views/moviesList":16}],15:[function(require,module,exports){
+},{"backbone":22,"backbone.obscura":13,"backbone.xview":21,"handlebars":38,"templates/compiledTemplates":5,"underscore":41,"views/chose":6,"views/controls":7,"views/details":8,"views/info":9,"views/moviesList":12}],11:[function(require,module,exports){
 var Backbone = require('backbone');
 var $ = require('jquery-untouched');
 var _ = require('underscore');
@@ -402,7 +398,7 @@ var MovieView = Backbone.View.extend({
 });
 module.exports = MovieView;
 
-},{"backbone":36,"jquery-untouched":54,"underscore":56}],16:[function(require,module,exports){
+},{"backbone":22,"jquery-untouched":39,"underscore":41}],12:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 
@@ -428,27 +424,7 @@ var MoviesList = Backbone.View.extend({
 
 module.exports = MoviesList;
 
-},{"backbone":36,"underscore":56,"views/movie":15}],17:[function(require,module,exports){
-module.exports=require(7)
-},{"backbone":36,"collections/movies":5,"underscore":56,"views/layout":14}],18:[function(require,module,exports){
-module.exports=require(8)
-},{}],19:[function(require,module,exports){
-module.exports=require(9)
-},{"backbone":36}],20:[function(require,module,exports){
-module.exports=require(10)
-},{"backbone":36,"backbone.xview":35,"underscore":56}],21:[function(require,module,exports){
-module.exports=require(11)
-},{"backbone":36,"moment":55,"underscore":56}],22:[function(require,module,exports){
-module.exports=require(12)
-},{"backbone":36}],23:[function(require,module,exports){
-module.exports=require(13)
-},{"backbone":36,"underscore":56}],24:[function(require,module,exports){
-module.exports=require(14)
-},{"backbone":36,"backbone.obscura":27,"backbone.xview":35,"handlebars":53,"templates/compiledTemplates":8,"underscore":56,"views/chose":9,"views/controls":10,"views/details":11,"views/info":13,"views/moviesList":16}],25:[function(require,module,exports){
-module.exports=require(15)
-},{"backbone":36,"jquery-untouched":54,"underscore":56}],26:[function(require,module,exports){
-module.exports=require(16)
-},{"backbone":36,"underscore":56,"views/movie":15}],27:[function(require,module,exports){
+},{"backbone":22,"underscore":41,"views/movie":11}],13:[function(require,module,exports){
 
 var _ = require('underscore');
 var Backbone = require('backbone');
@@ -571,7 +547,7 @@ Obscura.PaginatedCollection = PaginatedCollection;
 module.exports = Obscura;
 
 
-},{"./src/proxy-events.js":34,"backbone":36,"backbone-collection-proxy":28,"backbone-filtered-collection":29,"backbone-paginated-collection":31,"backbone-sorted-collection":32,"underscore":56}],28:[function(require,module,exports){
+},{"./src/proxy-events.js":20,"backbone":22,"backbone-collection-proxy":14,"backbone-filtered-collection":15,"backbone-paginated-collection":17,"backbone-sorted-collection":18,"underscore":41}],14:[function(require,module,exports){
 
 var _ = require('underscore');
 var Backbone = require('backbone');
@@ -644,7 +620,7 @@ function proxyCollection(from, target) {
 module.exports = proxyCollection;
 
 
-},{"backbone":36,"underscore":56}],29:[function(require,module,exports){
+},{"backbone":22,"underscore":41}],15:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var proxyCollection = require('backbone-collection-proxy');
@@ -874,7 +850,7 @@ _.extend(Filtered.prototype, methods, Backbone.Events);
 module.exports = Filtered;
 
 
-},{"./src/create-filter.js":30,"backbone":36,"backbone-collection-proxy":28,"underscore":56}],30:[function(require,module,exports){
+},{"./src/create-filter.js":16,"backbone":22,"backbone-collection-proxy":14,"underscore":41}],16:[function(require,module,exports){
 var _ = require('underscore');
 
 // Converts a key and value into a function that accepts a model
@@ -957,7 +933,7 @@ function createFilter(filter, keys) {
 module.exports = createFilter;
 
 
-},{"underscore":56}],31:[function(require,module,exports){
+},{"underscore":41}],17:[function(require,module,exports){
 
 var _ = require('underscore');
 var Backbone = require('backbone');
@@ -1171,7 +1147,7 @@ _.extend(Paginated.prototype, methods, Backbone.Events);
 module.exports =  Paginated;
 
 
-},{"backbone":36,"backbone-collection-proxy":28,"underscore":56}],32:[function(require,module,exports){
+},{"backbone":22,"backbone-collection-proxy":14,"underscore":41}],18:[function(require,module,exports){
 
 var _ = require('underscore');
 var Backbone =require('backbone');
@@ -1289,7 +1265,7 @@ _.extend(Sorted.prototype, methods, Backbone.Events);
 module.exports = Sorted;
 
 
-},{"./src/reverse-sorted-index.js":33,"backbone":36,"backbone-collection-proxy":28,"underscore":56}],33:[function(require,module,exports){
+},{"./src/reverse-sorted-index.js":19,"backbone":22,"backbone-collection-proxy":14,"underscore":41}],19:[function(require,module,exports){
 
 var _ = require('underscore');
 
@@ -1316,7 +1292,7 @@ function reverseSortedIndex(array, obj, iterator, context) {
 
 module.exports = reverseSortedIndex;
 
-},{"underscore":56}],34:[function(require,module,exports){
+},{"underscore":41}],20:[function(require,module,exports){
 var _ = require('underscore');
 
 function proxyEvents(from, eventNames) {
@@ -1331,7 +1307,7 @@ function proxyEvents(from, eventNames) {
 
 module.exports = proxyEvents;
 
-},{"underscore":56}],35:[function(require,module,exports){
+},{"underscore":41}],21:[function(require,module,exports){
 /**
  * XView
  *
@@ -1741,7 +1717,7 @@ module.exports = proxyEvents;
 
 }));
 
-},{"backbone":36,"underscore":56}],36:[function(require,module,exports){
+},{"backbone":22,"underscore":41}],22:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3351,7 +3327,7 @@ module.exports = proxyEvents;
 
 }));
 
-},{"underscore":37}],37:[function(require,module,exports){
+},{"underscore":23}],23:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -4696,9 +4672,7 @@ module.exports = proxyEvents;
   }
 }).call(this);
 
-},{}],38:[function(require,module,exports){
-
-},{}],39:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 "use strict";
 /*globals Handlebars: true */
 var Handlebars = require("./handlebars.runtime")["default"];
@@ -4736,7 +4710,7 @@ Handlebars = create();
 Handlebars.create = create;
 
 exports["default"] = Handlebars;
-},{"./handlebars.runtime":40,"./handlebars/compiler/ast":42,"./handlebars/compiler/base":43,"./handlebars/compiler/compiler":44,"./handlebars/compiler/javascript-compiler":45}],40:[function(require,module,exports){
+},{"./handlebars.runtime":25,"./handlebars/compiler/ast":27,"./handlebars/compiler/base":28,"./handlebars/compiler/compiler":29,"./handlebars/compiler/javascript-compiler":30}],25:[function(require,module,exports){
 "use strict";
 /*globals Handlebars: true */
 var base = require("./handlebars/base");
@@ -4769,7 +4743,7 @@ var Handlebars = create();
 Handlebars.create = create;
 
 exports["default"] = Handlebars;
-},{"./handlebars/base":41,"./handlebars/exception":49,"./handlebars/runtime":50,"./handlebars/safe-string":51,"./handlebars/utils":52}],41:[function(require,module,exports){
+},{"./handlebars/base":26,"./handlebars/exception":34,"./handlebars/runtime":35,"./handlebars/safe-string":36,"./handlebars/utils":37}],26:[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -4950,7 +4924,7 @@ exports.log = log;var createFrame = function(object) {
   return obj;
 };
 exports.createFrame = createFrame;
-},{"./exception":49,"./utils":52}],42:[function(require,module,exports){
+},{"./exception":34,"./utils":37}],27:[function(require,module,exports){
 "use strict";
 var Exception = require("../exception")["default"];
 
@@ -5178,7 +5152,7 @@ var AST = {
 // Must be exported as an object rather than the root of the module as the jison lexer
 // most modify the object to operate properly.
 exports["default"] = AST;
-},{"../exception":49}],43:[function(require,module,exports){
+},{"../exception":34}],28:[function(require,module,exports){
 "use strict";
 var parser = require("./parser")["default"];
 var AST = require("./ast")["default"];
@@ -5194,7 +5168,7 @@ function parse(input) {
 }
 
 exports.parse = parse;
-},{"./ast":42,"./parser":46}],44:[function(require,module,exports){
+},{"./ast":27,"./parser":31}],29:[function(require,module,exports){
 "use strict";
 var Exception = require("../exception")["default"];
 
@@ -5664,7 +5638,7 @@ exports.precompile = precompile;function compile(input, options, env) {
 }
 
 exports.compile = compile;
-},{"../exception":49}],45:[function(require,module,exports){
+},{"../exception":34}],30:[function(require,module,exports){
 "use strict";
 var COMPILER_REVISION = require("../base").COMPILER_REVISION;
 var REVISION_CHANGES = require("../base").REVISION_CHANGES;
@@ -6607,7 +6581,7 @@ JavaScriptCompiler.isValidJavaScriptVariableName = function(name) {
 };
 
 exports["default"] = JavaScriptCompiler;
-},{"../base":41,"../exception":49}],46:[function(require,module,exports){
+},{"../base":26,"../exception":34}],31:[function(require,module,exports){
 "use strict";
 /* jshint ignore:start */
 /* Jison generated parser */
@@ -7098,7 +7072,7 @@ function Parser () { this.yy = {}; }Parser.prototype = parser;parser.Parser = Pa
 return new Parser;
 })();exports["default"] = handlebars;
 /* jshint ignore:end */
-},{}],47:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 "use strict";
 var Visitor = require("./visitor")["default"];
 
@@ -7237,7 +7211,7 @@ PrintVisitor.prototype.content = function(content) {
 PrintVisitor.prototype.comment = function(comment) {
   return this.pad("{{! '" + comment.comment + "' }}");
 };
-},{"./visitor":48}],48:[function(require,module,exports){
+},{"./visitor":33}],33:[function(require,module,exports){
 "use strict";
 function Visitor() {}
 
@@ -7250,7 +7224,7 @@ Visitor.prototype = {
 };
 
 exports["default"] = Visitor;
-},{}],49:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 "use strict";
 
 var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
@@ -7279,7 +7253,7 @@ function Exception(message, node) {
 Exception.prototype = new Error();
 
 exports["default"] = Exception;
-},{}],50:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -7417,7 +7391,7 @@ exports.program = program;function invokePartial(partial, name, context, helpers
 exports.invokePartial = invokePartial;function noop() { return ""; }
 
 exports.noop = noop;
-},{"./base":41,"./exception":49,"./utils":52}],51:[function(require,module,exports){
+},{"./base":26,"./exception":34,"./utils":37}],36:[function(require,module,exports){
 "use strict";
 // Build out our basic SafeString type
 function SafeString(string) {
@@ -7429,7 +7403,7 @@ SafeString.prototype.toString = function() {
 };
 
 exports["default"] = SafeString;
-},{}],52:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 /*jshint -W004 */
 var SafeString = require("./safe-string")["default"];
@@ -7506,7 +7480,7 @@ exports.escapeExpression = escapeExpression;function isEmpty(value) {
 }
 
 exports.isEmpty = isEmpty;
-},{"./safe-string":51}],53:[function(require,module,exports){
+},{"./safe-string":36}],38:[function(require,module,exports){
 // USAGE:
 // var handlebars = require('handlebars');
 
@@ -7533,7 +7507,7 @@ if (typeof require !== 'undefined' && require.extensions) {
   require.extensions[".hbs"] = extension;
 }
 
-},{"../dist/cjs/handlebars":39,"../dist/cjs/handlebars/compiler/printer":47,"../dist/cjs/handlebars/compiler/visitor":48,"fs":38}],54:[function(require,module,exports){
+},{"../dist/cjs/handlebars":24,"../dist/cjs/handlebars/compiler/printer":32,"../dist/cjs/handlebars/compiler/visitor":33,"fs":42}],39:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.10.2
  * http://jquery.com/
@@ -17324,7 +17298,7 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
 
 })( window );
 
-},{}],55:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 //! moment.js
 //! version : 2.5.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -19726,6 +19700,8 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
     }
 }).call(this);
 
-},{}],56:[function(require,module,exports){
-module.exports=require(37)
-},{}]},{},[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]);
+},{}],41:[function(require,module,exports){
+module.exports=require(23)
+},{}],42:[function(require,module,exports){
+
+},{}]},{},[1])
