@@ -9,3 +9,5 @@ Then, you can run:
 or
 
   $ make jst
+
+NOTE: Browserify transforms can also be included in the package.json

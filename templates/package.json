@@ -9,13 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jquery-untouched": "~1.10.2",
     "backbone": "~1.1.2",
-    "underscore": "~1.6.0",
-    "pushstate-server": "~0.2.0",
-    "moment": "~2.5.1",
     "backbone.obscura": "~0.1.7",
-    "browserify-eco": "~0.2.4"
+    "browserify-eco": "~0.2.4",
+    "eco": "^1.1.0-rc-3",
+    "jquery-untouched": "~1.10.2",
+    "moment": "~2.5.1",
+    "pushstate-server": "~0.2.0",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "jstify": "~0.1.3"

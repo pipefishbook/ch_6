@@ -205,25 +205,30 @@ var DetailsView = Backbone.View.extend({
 module.exports = DetailsView;
 
 },{"backbone":23,"moment":25,"underscore":26}],8:[function(require,module,exports){
-  var Backbone = require('backbone');
-  var genresTemplate = require('../../templates/genres.jst');
-  
-  // The UI for selecting a Movie Category
-  var GenresView = Backbone.View.extend({
-  
-    template: genresTemplate,
+var Backbone = require('backbone');
 
-    render: function() {
-      this.$el.html(this.template({genres: this.genres}));
-      return this;
-    },
+// for jst
+var genresTemplate = require('../../templates/genres.jst');
 
-    initialize: function() {
-      this.genres = ['Action', 'Drama', 'Comedy'];
-    }
-  
-  });
-  module.exports = GenresView;
+// for eco
+// var genresTemplate = require('../../templates/genres.eco');
+
+// The UI for selecting a Movie category
+var GenresView = Backbone.View.extend({
+
+  template: genresTemplate,
+
+  render: function() {
+    this.$el.html(this.template({genres: this.genres}));
+    return this;
+  },
+
+  initialize: function() {
+    this.genres = ['Action', 'Drama', 'Comedy'];
+  }
+
+});
+module.exports = GenresView;
 
 },{"../../templates/genres.jst":13,"backbone":23}],9:[function(require,module,exports){
 
@@ -275,13 +280,7 @@ var Layout = Backbone.View.extend({
                  <button id="by_title">By Title</button>  \
                  <button id="by_rating">By Rating</button>\
                  <button id="by_showtime">By Showtime</button> \
-                 <p>Filter</p> \
-                   <input type="checkbox" name="genres" value="Drama"> \
-                     Drama \
-                   </input> \
-                   <input type="checkbox" name="genres" value="Action"> \
-                     Action \
-                   </input> \
+		 <div id="genres"></div> \
                </nav> \
                <span id="info">  \
                </span>               \
@@ -296,6 +295,7 @@ var Layout = Backbone.View.extend({
     this.controls.setElement(this.$('#controls'));
     this.currentDetails.setElement(this.$('#details')).render();
     this.overview.setElement(this.$('#overview')).render();
+    this.genresFilter.setElement(this.$('#genres')).render();
 
     return this;
   },

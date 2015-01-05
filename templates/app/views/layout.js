@@ -25,13 +25,7 @@ var Layout = Backbone.View.extend({
                  <button id="by_title">By Title</button>  \
                  <button id="by_rating">By Rating</button>\
                  <button id="by_showtime">By Showtime</button> \
-                 <p>Filter</p> \
-                   <input type="checkbox" name="genres" value="Drama"> \
-                     Drama \
-                   </input> \
-                   <input type="checkbox" name="genres" value="Action"> \
-                     Action \
-                   </input> \
+		 <div id="genres"></div> \
                </nav> \
                <span id="info">  \
                </span>               \
@@ -46,6 +40,7 @@ var Layout = Backbone.View.extend({
     this.controls.setElement(this.$('#controls'));
     this.currentDetails.setElement(this.$('#details')).render();
     this.overview.setElement(this.$('#overview')).render();
+    this.genresFilter.setElement(this.$('#genres')).render();
 
     return this;
   },
