@@ -1,7 +1,6 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = Backbone.$;
-Backbone.XView = require('backbone.xview');
 
 var ControlsView = Backbone.View.extend({
 
@@ -34,7 +33,6 @@ var ControlsView = Backbone.View.extend({
   },
 
   paginatePrev: function() {
-    console.log("**");
     this.proxy.prevPage();
   },
 

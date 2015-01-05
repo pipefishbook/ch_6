@@ -1,5 +1,4 @@
 var Backbone = require('backbone');
-Backbone.XView = require('backbone.xview');
 Backbone.Obscura = require('backbone.obscura');
 
 var _ = require('underscore');
@@ -13,7 +12,7 @@ var Controls = require('views/controls');
 var GenresFilter = require('views/genresFilter');
 var Info = require('views/info');
 
-var Layout = Backbone.XView.extend({
+var Layout = Backbone.View.extend({
 
   template: _.template('           \
              <header>   \
@@ -42,42 +41,40 @@ var Layout = Backbone.XView.extend({
              <div id="details">   \
              </div>'),
 
+  render: function() {
+    this.$el.html(this.template());
+    this.controls.setElement(this.$('#controls'));
+    this.currentDetails.setElement(this.$('#details')).render();
+    this.overview.setElement(this.$('#overview')).render();
+
+    return this;
+  },
+  
   setDetails: function(movie) {
-    if (this.currentDetails) {
-      this.removeView(this.currentDetails);
-      this.render();
-    }
-    var view = new DetailsView({model: movie});
-    this.addView('#details', {id: view.cid}, view);
-    this.currentDetails = view.cid;
+    if (this.currentDetails) this.currentDetails.remove();
+    this.currentDetails = new DetailsView({model: movie});
+    this.render();
   },
 
   setChose: function() {
-    if (this.currentDetails) {
-      this.removeView(this.currentDetails);
-      this.render();
-    }
-    var view = new ChoseView();
-    this.addView('#details', {id: view.cid}, view);
-    this.currentDetails = view.cid;
-  },
-
-  onRender: function() {
-    this.controls.setElement($('#controls'));
-    $("#controls").append(this.genresFilter.render().el);
-    $('#info').append(this.info.render().el);
+    if (this.currentDetails) this.currentDetails.remove();
+    this.currentDetails = new ChoseView();
+    this.render();
   },
   
   initialize: function(options) {
     this.proxy = new Backbone.Obscura(options.router.movies); 
     this.proxy.setPerPage(4);
-    this.addView('#overview', new MoviesList({
-      collection: this.proxy,
-      router: options.router
-    }));
+
     this.controls = new Controls({ proxy: this.proxy });
     this.genresFilter = new GenresFilter();
     this.info = new Info({proxy: this.proxy });
+
+    this.overview = new MoviesList({
+        router: options.router,
+        collection: this.proxy
+     });
+     this.currentDetails = new ChoseView();
   }
 
 });
