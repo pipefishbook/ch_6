@@ -43,7 +43,6 @@ var ControlsView = Backbone.View.extend({
   },
 
   paginatePrev: function() {
-    console.log("**");
     this.proxy.prevPage();
   },
 
@@ -61,7 +60,6 @@ var ControlsView = Backbone.View.extend({
 
   initialize: function(options) {
     this.proxy = options.proxy;
-    Backbone.XView.prototype.initialize.call(options);
   }
 });
 module.exports = ControlsView;

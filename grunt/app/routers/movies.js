@@ -3,7 +3,7 @@ var _ = require('underscore');
 
 // data
 var Movies = require('collections/movies');
-var movies = new Movies([{id: 1, title: 'test', genres: ['Action']}]);
+var movies = new Movies([{id: 1, title: 'test', showtime: 13783939393, genres: ['Action']}]);
 
 // views
 var Layout = require('views/layout');

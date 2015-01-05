@@ -9,7 +9,7 @@
                          <br><br> <%= description %>'),
 
     render: function() {
-      var showtime = moment(showtime).format("DD-MMMM HH:MM");
+      var showtime = moment(this.model.get('showtime'), 'X').format("DD-MMMM HH:MM");
       var data = _.extend(this.model.toJSON(), {showtimeFormatted: showtime});
       this.$el.html(this.template(data));
       return this;

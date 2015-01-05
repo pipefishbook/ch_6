@@ -1,5 +1,4 @@
 var Backbone = require('backbone');
-Backbone.XView = require('backbone.xview');
 Backbone.Obscura = require('backbone.obscura');
 
 var _ = require('underscore');
@@ -15,44 +14,43 @@ var Info = require('views/info');
 var Handlebars = require('handlebars');
 var Templates = require('templates/compiledTemplates')(Handlebars);
 
-var Layout = Backbone.XView.extend({
+var Layout = Backbone.View.extend({
 
   template:   Templates['layout'],
 
+  render: function() {
+    this.$el.html(this.template());
+    this.controls.setElement(this.$('#controls')).render();
+    this.currentDetails.setElement(this.$('#details')).render();
+    this.overview.setElement(this.$('#overview')).render();
+
+    return this;
+  },
+
   setDetails: function(movie) {
-    if (this.currentDetails) {
-      this.removeView(this.currentDetails);
-      this.render();
-    }
-    var view = new DetailsView({model: movie});
-    this.addView('#details', {id: view.cid}, view);
-    this.currentDetails = view.cid;
+    if (this.currentDetails) this.currentDetails.remove();
+    this.currentDetails = new DetailsView({model: movie});
+    this.render();
   },
 
   setChose: function() {
-    if (this.currentDetails) {
-      this.removeView(this.currentDetails);
-      this.render();
-    }
-    var view = new ChoseView();
-    this.addView('#details', {id: view.cid}, view);
-    this.currentDetails = view.cid;
+    if (this.currentDetails) this.currentDetails.remove();
+    this.currentDetails = new ChoseView();
+    this.render();
   },
 
-  onRender: function() {
-    $('#controls').html(this.controls.render().el);
-    $('#info').append(this.info.render().el);
-  },
-  
   initialize: function(options) {
-    this.proxy = new Backbone.Obscura(options.router.movies); 
+    this.proxy = new Backbone.Obscura(options.router.movies);
     this.proxy.setPerPage(4);
-    this.addView('#overview', new MoviesList({
-      collection: this.proxy,
-      router: options.router
-    }));
-    this.controls = new Controls({ filters: ['Drama', 'Action'], proxy: this.proxy });
+
+    this.controls = new Controls({ proxy: this.proxy });
     this.info = new Info({proxy: this.proxy });
+
+    this.overview = new MoviesList({
+        router: options.router,
+        collection: this.proxy
+     });
+     this.currentDetails = new ChoseView();
   }
 
 });
