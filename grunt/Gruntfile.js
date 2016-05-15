@@ -8,7 +8,8 @@ module.exports = function(grunt) {
         files: 'app/**/*.js',
         tasks: ['browserify'],
         options: {
-          interrupt: true
+          interrupt: true,
+          transform: ['hbsfy']
         }
       },
       templates: {
@@ -17,36 +18,34 @@ module.exports = function(grunt) {
         options: {
           interrupt: true
         }
-      },
+      }
     },
 
     handlebars: {
       compile: {
         options: {
-          namespace: false,
+          namespace: function(ns) {
+            console.log(ns);
+            return "views";
+          },
+          wrapped: true,
           commonjs: true,
           processName: function(filename) {
             return filename.replace('app/templates/', '').replace('.hbs', '');
           }
         },
-        src: "app/templates/**/*.hbs",
-        dest: "app/templates/compiledTemplates.js"
+        files: {
+          'app/templates/compiledTemplates.js': ['app/templates/**/*.hbs']
+        }
       }
     },
 
     browserify: {
       options: {
         debug: true,
-        aliasMappings: [
-          {
-            cwd: 'app/',
-            src: ['**/*.js'],
-            dest: 'app/'
-          }
-        ]
       },
       app: {
-        src: [ 'app/**/*.js' ],
+        src: [ 'app/main.js' ],
         dest: 'static/bundle.js'
       }
     }

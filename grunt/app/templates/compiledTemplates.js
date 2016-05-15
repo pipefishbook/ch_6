@@ -1,52 +1,30 @@
 module.exports = function(Handlebars) {
 
-var templates = {};
+this["views"] = this["views"] || {};
 
-templates["controls"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+this["views"]["controls"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-function program1(depth0,data) {
-  
-  var buffer = "", stack1, helper;
-  buffer += "\n  <input type=\"checkbox\" name=\"genres\" value=\"";
-  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\">\n    ";
-  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
+  return "  <input type=\"checkbox\" name=\"genres\" value=\""
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "\">\n    "
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "\n  </input>\n";
-  return buffer;
-  }
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
 
-  buffer += "<p>Sort:</p>\n<button id=\"prev\">Previous</button>\n<button id=\"next\">Next</button>\n<p>Sort:</p>\n<button id=\"by_title\">By Title</button>\n<button id=\"by_rating\">By Rating</button>\n<button id=\"by_showtime\">By Showtime</button>\n<p>Filter</p>\n";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.filters), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n";
-  return buffer;
-  });
+  return "<p>Sort:</p>\n<button id=\"prev\">Previous</button>\n<button id=\"next\">Next</button>\n<p>Sort:</p>\n<button id=\"by_title\">By Title</button>\n<button id=\"by_rating\">By Rating</button>\n<button id=\"by_showtime\">By Showtime</button>\n<p>Filter</p>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.filters : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"useData":true});
 
-templates["layout"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
+this["views"]["layout"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<header>\n<a href=\"#\">Home</a>\n  <nav id=\"controls\">\n  </nav>\n  <span id=\"info\"> \n  </span>    \n</header>   \n<div id=\"overview\">\n</div>     \n<div id=\"details\"> \n</div>\n";
+},"useData":true});
 
+this["views"]["moviesList"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "";
+},"useData":true});
 
-  return "<header>\n<a href=\"#\">Home</a>\n  <nav id=\"controls\">\n  </nav>\n  <span id=\"info\"> \n  </span>    \n</header>   \n<div id=\"overview\">\n</div>     \n<div id=\"details\"> \n</div>\n";
-  });
-
-templates["moviesList"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "";
-
-
-  return buffer;
-  });
-
-return templates;
+return this["views"];
 
 };
