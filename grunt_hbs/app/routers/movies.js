@@ -3,7 +3,7 @@ var _ = require('underscore');
 
 // data
 var Movies = require('collections/movies');
-var movies = new Movies([{id: 1, title: 'test', showtime: 13783939393, genres: ['Action']}]);
+
 
 // views
 var Layout = require('views/layout');
@@ -27,7 +27,8 @@ var MoviesRouter = Backbone.Router.extend({
   },
 
   initialize: function(options) {
-    this.movies = movies;
+    this.movies = new Movies(options.rawMovies);
+    console.log(this.movies);
     this.layout = Layout.getInstance({
       el: '#movies', router: this
     });

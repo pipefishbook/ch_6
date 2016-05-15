@@ -11,6 +11,7 @@
   "dependencies": {
     "backbone": "~1.1.2",
     "backbone.obscura": "~0.1.7",
+    "brfs": "^1.4.3",
     "browserify": "^13.0.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",

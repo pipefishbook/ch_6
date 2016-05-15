@@ -8,8 +8,7 @@ module.exports = function(grunt) {
         files: 'app/**/*.js',
         tasks: ['browserify'],
         options: {
-          interrupt: true,
-          transform: ['hbsfy']
+          interrupt: true
         }
       },
       templates: {
@@ -41,12 +40,13 @@ module.exports = function(grunt) {
     },
 
     browserify: {
-      options: {
-        debug: true,
-      },
-      app: {
-        src: [ 'app/main.js' ],
-        dest: 'static/bundle.js'
+      dist: {
+        files: { 
+          'static/bundle.js': [ 'app/main.js' ]
+        },
+        options: {
+          transform: ['brfs']
+        }
       }
     }
   });
